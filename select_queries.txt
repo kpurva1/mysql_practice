@@ -1,0 +1,41 @@
+//Query the two cities in STATION with the shortest and longest CITY names, as well as their respective lengths (i.e.: number of characters in the name). If there is more than one smallest or largest city, choose the one that comes first when ordered alphabetically.
+
+Input Format
+
+The STATION table is described as follows:
+ID - number
+city - varchar
+state - varchar
+lat_n - number
+long_w - number
+
+where LAT_N is the northern latitude and LONG_W is the western longitude.
+
+Sample Input
+
+Let's say that CITY only has four entries: DEF, ABC, PQRS and WXY
+
+Sample Output
+
+ABC 3
+PQRS 4
+
+//
+
+
+
+
+(select s1.city,length(s1.city)
+from station as s1,(select min(length(city)) minl,max(length(city)) maxl from station )as s2
+where length(s1.city) = s2.minl 
+order by city
+limit 1)
+
+union
+
+(select s1.city,length(s1.city)
+from station as s1,(select min(length(city)) minl,max(length(city)) maxl from station )as s2
+where  length(s1.city) = s2.maxl
+order by city
+limit 1)
+
